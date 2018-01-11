@@ -1,0 +1,7 @@
+._*
+*~
+*.pyc
+ve
+.project
+.pydevproject
+node_modules
