@@ -26,7 +26,6 @@ class PanoptoUploadTarget(object):
 
         self.hostname = '{}'.format(m.group(1))
         self.bucket_name = 'Panopto/{}'.format(m.group(2))
-        print(self.bucket_name)
         self.guid = m.group(3)
 
     def file_key(self, filename):
@@ -171,10 +170,8 @@ class PanoptoUploadSession(object):
         # create and upload a manifest file for panopto
         manifest = self._panopto_manifest(
             self.dest_filename, self.dest_filename)
-        print(manifest)
 
         source_file = BytesIO(manifest.encode('utf-8'))
-        print(source_file)
 
         key_name = self.target.file_key('manifest.xml')
         mp = self.bucket.initiate_multipart_upload(key_name)
