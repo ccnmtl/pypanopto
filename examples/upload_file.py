@@ -1,6 +1,6 @@
 import getopt
 import sys
-from panopto.upload import PanoptoUploadSession
+from panopto.upload import PanoptoUpload
 
 
 def getopts(argv):
@@ -36,7 +36,7 @@ def main():
         usage()
         sys.exit(2)
 
-    uploader = PanoptoUploadSession()
+    uploader = PanoptoUpload()
 
     for o, a in opts:
         if o in ('-h', '--help'):
@@ -70,11 +70,19 @@ def main():
     if not uploader.create_session():
         print('Failed to create a session')
         sys.exit(2)
+    print("Panopto upload initialized")
 
     uploader.create_bucket()
+    print("Upload bucket created")
+
     uploader.upload_manifest()
+    print("Manifest uploaded")
+
     uploader.upload_media()
+    print("Media upload")
+
     uploader.complete_session()
+    print("Panopto upload complete")
 
 
 if __name__ == "__main__":
