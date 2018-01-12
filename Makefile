@@ -1,7 +1,8 @@
-PY_DIRS=pypanopto
+PY_DIRS=panopto examples
 OUTPUT_PATH=ve
 VE ?= ./ve
 FLAKE8 ?= $(VE)/bin/flake8
+PYTEST ?= $(VE)/bin/pytest
 REQUIREMENTS ?= requirements.txt
 SYS_PYTHON ?= python
 PIP ?= $(VE)/bin/pip
@@ -12,20 +13,20 @@ SUPPORT_DIR ?= requirements/virtualenv_support/
 MAX_COMPLEXITY ?= 7
 PY_DIRS ?= $(APP)
 
-all: flake8
+all: flake8 test
 
 clean:
 	rm -rf $(OUTPUT_PATH)
 
-$(PY_SENTINAL):
+$(PY_SENTINAL): $(REQUIREMENTS) $(VIRTUALENV) $(SUPPORT_DIR)*
 	rm -rf $(VE)
 	$(SYS_PYTHON) $(VIRTUALENV) --extra-search-dir=$(SUPPORT_DIR) $(VE)
 	$(PIP) install wheel==$(WHEEL_VERSION)
 	$(PIP) install --use-wheel --no-deps --requirement $(REQUIREMENTS)
 	touch $@
 
-test: $(REQUIREMENTS) $(PY_SENTINAL)
-	./ve/bin/python runtests.py
+test: $(PY_SENTINAL)
+	$(PYTEST) $(PY_DIRS)
 
 flake8: $(PY_SENTINAL)
 	$(FLAKE8) $(PY_DIRS)
