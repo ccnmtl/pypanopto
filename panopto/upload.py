@@ -35,7 +35,7 @@ class PanoptoUploadTarget(object):
         return self.hostname
 
 
-class PanoptoUploadSession(object):
+class PanoptoUpload(object):
 
     '''
         Implementation of the Panopto Upload API.
@@ -63,6 +63,15 @@ class PanoptoUploadSession(object):
         self.username = None
         self.instance_name = None
         self.input_file = None
+        self.dest_filename = None
+        self.title = None
+        self.description = None
+
+    def set_destination_attributes(self):
+        if not self.dest_filename:
+            self.dest_filename = os.path.basename(self.input_file)
+        if not self.title:
+            self.title = self.dest_filename
 
     def create_session(self):
         # authenticate
@@ -72,7 +81,7 @@ class PanoptoUploadSession(object):
             self.username, self.instance_name, self.application_key)
 
         if self.session:
-            self.dest_filename = os.path.basename(self.input_file)
+            self.set_destination_attributes()
 
             url = 'https://{}/Panopto/PublicAPI/REST/sessionUpload'.format(
                 self.server)
@@ -140,13 +149,13 @@ class PanoptoUploadSession(object):
 
         source_file.close()
 
-    def _panopto_manifest(self, dest_filename, title):
+    def _panopto_manifest(self, dest_filename, title, descript):
         dt = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000-00:00')
         return '''<PanoptoSession
             xmlns:i="http://www.w3.org/2001/XMLSchema-instance"
             xmlns="http://panopto.com/PanoptoSession/v1">
             <Title>{}</Title>
-            <Description></Description>
+            <Description>{}</Description>
             <Date>{}</Date>
             <Videos>
                 <Video>
@@ -164,12 +173,12 @@ class PanoptoUploadSession(object):
             <Tags />
             <Extensions />
             <Attachments />
-        </PanoptoSession>'''.format(title, dt, dest_filename)
+        </PanoptoSession>'''.format(title, descript, dt, dest_filename)
 
     def upload_manifest(self):
         # create and upload a manifest file for panopto
         manifest = self._panopto_manifest(
-            self.dest_filename, self.dest_filename)
+            self.dest_filename, self.title, self.description)
 
         source_file = BytesIO(manifest.encode('utf-8'))
 
