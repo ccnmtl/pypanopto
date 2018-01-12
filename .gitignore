@@ -6,3 +6,5 @@ ve
 .pydevproject
 node_modules
 .cache
+dist
+pypanopto.egg-info
