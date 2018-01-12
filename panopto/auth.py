@@ -30,7 +30,7 @@ class PanoptoAuth(object):
 
     def _auth_code(self, user_key, application_key):
         payload = user_key + '@' + self.server + '|' + application_key
-        return hashlib.sha1(payload).hexdigest().upper()
+        return hashlib.sha1(payload.encode('utf-8')).hexdigest().upper()
 
     def authenticate_with_password(self, username, password):
         try:
