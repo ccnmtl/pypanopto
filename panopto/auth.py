@@ -16,12 +16,11 @@ class PanoptoAuth(object):
 
     def __init__(self, server):
         self.server = server
-
-        self.api = {
-            'auth': self._api('Auth')
+        self.client = {
+            'auth': self._client('Auth')
         }
 
-    def _api(self, name):
+    def _client(self, name):
         url = 'https://{}/Panopto/PublicAPI/4.6/{}.svc?wsdl'.format(
             self.server, name)
         return Client(url)
@@ -33,20 +32,13 @@ class PanoptoAuth(object):
         payload = user_key + '@' + self.server + '|' + application_key
         return hashlib.sha1(payload).hexdigest().upper()
 
-    def _auth_info(self, username):
-        user_key = self._user_key(username)
-        return {
-            'AuthCode': self._auth_code(user_key),
-            'UserKey': user_key
-        }
-
     def authenticate_with_password(self, username, password):
         try:
-            self.api['auth'].service.LogOnWithPassword(
+            self.client['auth'].service.LogOnWithPassword(
                 userKey=username, password=password)
 
             # return the underlying request object
-            return self.api['auth'].transport.session
+            return self.client['auth'].transport.session
         except (Fault, AttributeError):
             pass
 
@@ -58,11 +50,11 @@ class PanoptoAuth(object):
         try:
             user_key = self._user_key(username, instance_name)
             auth_code = self._auth_code(user_key, application_key)
-            self.api['auth'].service.LogOnWithExternalProvider(
+            self.client['auth'].service.LogOnWithExternalProvider(
                 userKey=user_key, authCode=auth_code)
 
             # return the underlying request object
-            return self.api['auth'].transport.session
+            return self.client['auth'].transport.session
         except (Fault, AttributeError):
             pass
 
