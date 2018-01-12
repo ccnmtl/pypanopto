@@ -5,3 +5,4 @@ ve
 .project
 .pydevproject
 node_modules
+.cache
