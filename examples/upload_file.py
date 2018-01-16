@@ -1,5 +1,7 @@
 import getopt
 import sys
+import time
+
 from panopto.upload import PanoptoUpload
 
 
@@ -83,6 +85,20 @@ def main():
 
     uploader.complete_session()
     print("Panopto upload complete")
+
+    while True:
+        state = uploader.check_upload_state()
+        if state in PanoptoUpload.UPLOAD_STATES.keys():
+            print('state: {}, sessionId: {}'.format(
+                PanoptoUpload.UPLOAD_STATES[state],
+                uploader.get_panopto_id()))
+        else:
+            print('unknown state: {}'.format(state))
+
+        if state >= PanoptoUpload.UPLOAD_READY:  # complete
+            break
+
+        time.sleep(5)
 
 
 if __name__ == "__main__":
