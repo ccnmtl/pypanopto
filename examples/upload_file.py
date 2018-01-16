@@ -2,7 +2,7 @@ import getopt
 import sys
 import time
 
-from panopto.upload import PanoptoUpload
+from panopto.upload import PanoptoUpload, PanoptoUploadStatus
 
 
 def getopts(argv):
@@ -86,16 +86,22 @@ def main():
     uploader.complete_session()
     print("Panopto upload complete")
 
+    # Check the status of the upload
+    upload_status = PanoptoUploadStatus()
+    upload_status.server = uploader.server
+    upload_status.application_key = uploader.application_key
+    upload_status.instance_name = uploader.instance_name
+    upload_status.username = uploader.username
+    upload_status.upload_id = uploader.get_upload_id()
     while True:
-        state = uploader.check_upload_state()
-        if state in PanoptoUpload.UPLOAD_STATES.keys():
+        (state, panopto_id) = upload_status.check()
+        if state in PanoptoUploadStatus.UPLOAD_STATES.keys():
             print('state: {}, sessionId: {}'.format(
-                PanoptoUpload.UPLOAD_STATES[state],
-                uploader.get_panopto_id()))
+                PanoptoUploadStatus.UPLOAD_STATES[state], panopto_id))
         else:
             print('unknown state: {}'.format(state))
 
-        if state >= PanoptoUpload.UPLOAD_READY:  # complete
+        if state >= PanoptoUploadStatus.UPLOAD_READY:  # complete
             break
 
         time.sleep(5)
