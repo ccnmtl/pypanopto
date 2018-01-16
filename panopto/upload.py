@@ -11,6 +11,7 @@ from panopto.auth import PanoptoAuth
 
 
 class PanoptoUploadTarget(object):
+
     '''
         Encapsulate an upload target from the Panopto upload REST API
 
@@ -209,4 +210,42 @@ class PanoptoUpload(object):
             'Message': None
         }
 
-        return self.session.put(url, json=payload)
+        response = self.session.put(url, json=payload)
+        return response.status_code == 200
+
+    UPLOAD_CREATED = 0
+    UPLOAD_COMPLETE = 1
+    UPLOAD_CANCELLED = 2
+    UPLOAD_PROCESSING = 3
+    UPLOAD_READY = 4
+    UPLOAD_ERROR = 5
+    UPLOAD_DELETING_FILE = 6
+    UPLOAD_DELETED = 7
+    UPLOAD_DELETION_ERROR = 8
+
+    UPLOAD_STATES = {
+        UPLOAD_CREATED: 'Upload Created',
+        UPLOAD_COMPLETE: 'Upload Complete',
+        UPLOAD_CANCELLED: 'Upload Cancelled',
+        UPLOAD_PROCESSING: 'Upload Processing',
+        UPLOAD_READY: 'Upload Ready',
+        UPLOAD_ERROR: 'Upload Processing Error',
+        UPLOAD_DELETING_FILE: 'Upload Deleting Files',
+        UPLOAD_DELETED: 'Upload Deleted',
+        UPLOAD_DELETION_ERROR: 'Upload Deletion Error'
+    }
+
+    def check_upload_state(self):
+        url = 'https://{}/Panopto/PublicAPI/REST/sessionUpload/{}'.format(
+            self.server, self.target.upload_id)
+
+        response = self.session.get(url)
+        if response.status_code == 200:
+            content = loads(response.content)
+            self.panopto_id = content['SessionId']
+            return content['State']
+
+        return 0
+
+    def get_panopto_id(self):
+        return self.panopto_id
