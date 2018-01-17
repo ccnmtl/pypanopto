@@ -9,7 +9,7 @@ class PanoptoSessionManager(object):
 
     def __init__(self, server, username, instance_name, application_key):
         self.client = self._client(server, 'SessionManagement')
-        self.auth_info = PanoptoAuth(server).auth_info(
+        self.auth_info = PanoptoAuth.auth_info(
                 username, instance_name, application_key)
 
     def _client(self, server, name):

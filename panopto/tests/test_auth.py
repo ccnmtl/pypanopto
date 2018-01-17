@@ -12,13 +12,14 @@ class TestPanoptoAuth(unittest.TestCase):
             self.auth = PanoptoAuth('test.hosted.panopto.com')
 
     def test_user_key(self):
-        self.assertEquals(self.auth._user_key('foo', 'BAR'), 'BAR\\foo')
+        self.assertEquals(PanoptoAuth._user_key('foo', 'BAR'), 'BAR\\foo')
 
     def test_auth_code(self):
         user_key = 'BAR\\foo'
         application_key = 'd0dbe76a-40af-4de8-93c6-4df6f413f0e1'
         self.assertIsNotNone(
-            self.auth._auth_code(user_key, application_key))
+            PanoptoAuth._auth_code(
+                'test.hosted.panopto.com', user_key, application_key))
 
     def test_authenticate_with_password(self):
         self.assertIsNone(
