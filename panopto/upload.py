@@ -7,6 +7,7 @@ import re
 from boto.compat import BytesIO
 from boto.s3.connection import S3Connection, OrdinaryCallingFormat
 from filechunkio import FileChunkIO
+
 from panopto.auth import PanoptoAuth
 
 
@@ -213,6 +214,12 @@ class PanoptoUpload(object):
         response = self.session.put(url, json=payload)
         return response.status_code == 200
 
+    def get_upload_id(self):
+        return self.target.upload_id
+
+
+class PanoptoUploadStatus(object):
+
     UPLOAD_CREATED = 0
     UPLOAD_COMPLETE = 1
     UPLOAD_CANCELLED = 2
@@ -235,17 +242,25 @@ class PanoptoUpload(object):
         UPLOAD_DELETION_ERROR: 'Upload Deletion Error'
     }
 
-    def check_upload_state(self):
+    def __init__(self):
+        self.server = None
+        self.application_key = None
+        self.username = None
+        self.instance_name = None
+        self.upload_id = None
+
+    def check(self):
+        auth = PanoptoAuth(self.server)
+
+        self.session = auth.authenticate_with_application_key(
+            self.username, self.instance_name, self.application_key)
+
         url = 'https://{}/Panopto/PublicAPI/REST/sessionUpload/{}'.format(
-            self.server, self.target.upload_id)
+            self.server, self.upload_id)
 
         response = self.session.get(url)
         if response.status_code == 200:
             content = loads(response.content)
-            self.panopto_id = content['SessionId']
-            return content['State']
+            return (content['State'], content['SessionId'])
 
-        return 0
-
-    def get_panopto_id(self):
-        return self.panopto_id
+        return (0, None)
