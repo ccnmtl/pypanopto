@@ -9,7 +9,7 @@ class PanoptoAuth(object):
         Integration with Panopto's SOAP API service for authentication.
         Authentication can take place via
         * LogOnWithPassword - username & password
-        * LogOnWithExternalProfider -
+        * LogOnWithExternalProvider -
             username
             instance_name - The instance name as set in
                 Panopto > System > Identity Providers
