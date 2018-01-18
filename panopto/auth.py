@@ -30,13 +30,13 @@ class PanoptoAuth(object):
         return Client(url)
 
     @classmethod
-    def _user_key(cls, username, instance_name):
-        return '%s\\%s' % (instance_name, username)
-
-    @classmethod
     def _auth_code(cls, server, user_key, application_key):
         payload = user_key + '@' + server + '|' + application_key
         return hashlib.sha1(payload.encode('utf-8')).hexdigest().upper()
+
+    @classmethod
+    def user_key(cls, username, instance_name):
+        return '%s\\%s' % (instance_name, username)
 
     @classmethod
     def auth_info(cls, server, username, instance_name, application_key):
@@ -52,7 +52,7 @@ class PanoptoAuth(object):
 
             returns AuthenticationInfo object with hashed auth_code
         '''
-        user_key = cls._user_key(username, instance_name)
+        user_key = cls.user_key(username, instance_name)
         return {
             'AuthCode': cls._auth_code(server, user_key, application_key),
             'UserKey': user_key
