@@ -8,8 +8,14 @@ class PanoptoAuth(object):
     '''
         Integration with Panopto's SOAP API service for authentication.
         Authentication can take place via
-        * username & password
-        * username, instance_name and application key
+        * LogOnWithPassword - username & password
+        * LogOnWithExternalProvider -
+            username
+            instance_name - The instance name as set in
+                Panopto > System > Identity Providers
+            application key - The key produced through
+                Panopto > System > Identity Providers
+                returns a dict of hashed auth code and user key
 
         https://support.panopto.com/articles/Documentation/api-0
     '''
@@ -23,12 +29,34 @@ class PanoptoAuth(object):
             self.server, name)
         return Client(url)
 
-    def _user_key(self, username, instance_name):
+    @classmethod
+    def _user_key(cls, username, instance_name):
         return '%s\\%s' % (instance_name, username)
 
-    def _auth_code(self, user_key, application_key):
-        payload = user_key + '@' + self.server + '|' + application_key
+    @classmethod
+    def _auth_code(cls, server, user_key, application_key):
+        payload = user_key + '@' + server + '|' + application_key
         return hashlib.sha1(payload.encode('utf-8')).hexdigest().upper()
+
+    @classmethod
+    def auth_info(cls, server, username, instance_name, application_key):
+        '''
+            Utility function to retrieve the authenticationInfo for a
+            SOAP call. The authInfo allows a short-circuit path to
+            authenticate a user and perform the call in one go
+
+            * server
+            * username
+            * instance name
+            * application_key
+
+            returns AuthenticationInfo object with hashed auth_code
+        '''
+        user_key = cls._user_key(username, instance_name)
+        return {
+            'AuthCode': cls._auth_code(server, user_key, application_key),
+            'UserKey': user_key
+        }
 
     def authenticate_with_password(self, username, password):
         try:
@@ -36,6 +64,7 @@ class PanoptoAuth(object):
                 userKey=username, password=password)
 
             # return the underlying request object
+            # @todo - does it make more sense to return the auth cookie?
             return self.client.transport.session
         except (Fault, AttributeError):
             pass
@@ -46,21 +75,16 @@ class PanoptoAuth(object):
             self, username, instance_name, application_key):
 
         try:
-            user_key = self._user_key(username, instance_name)
-            auth_code = self._auth_code(user_key, application_key)
+            user_key = self.user_key(username, instance_name)
+            auth_code = self._auth_code(
+                self.server, user_key, application_key)
             self.client.service.LogOnWithExternalProvider(
                 userKey=user_key, authCode=auth_code)
 
             # return the underlying request object
+            # @todo - does it make more sense to return the auth cookie?
             return self.client.transport.session
         except (Fault, AttributeError):
             pass
 
         return None
-
-    def auth_info(self, username, instance_name, application_key):
-        user_key = self._user_key(username, instance_name)
-        return {
-            'AuthCode': self._auth_code(user_key, application_key),
-            'UserKey': user_key
-        }
