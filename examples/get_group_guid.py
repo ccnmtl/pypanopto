@@ -19,8 +19,7 @@ def usage():
           '--username <panopto username> '
           '--instance-name <panopto instance name> '
           '--application-key <panopto application key>'
-          '--session-id <panopto session id>'
-          '--new-owner <new owner username>')
+          '--group-name <group name>')
 
 
 def main():
@@ -28,9 +27,9 @@ def main():
     try:
         opts, args = getopt.getopt(
             sys.argv[1:],
-            "hs:u:i:a:v:o:",
-            ["help", "server=", "username=", "instance-name=",
-             "application-key=", "session-id=", "new-owner="])
+            'hs:u:i:a:g:',
+            ['help', 'server=', 'username=', 'instance-name=',
+             'application-key=', 'group-name='])
     except getopt.GetoptError as err:
         # print help information and exit
         print(str(err))
@@ -54,22 +53,18 @@ def main():
             # An application key, a.k.a the key produced through
             # Panopto > System > Identity Providers
             application_key = a
-        elif o in ('-v', '--session-id'):
-            # Panopto Session Id, a.k.a the media uuid
-            session_id = a
-        elif o in ('-o', '--new-owner'):
-            # Panopto Session Id
-            new_owner = a
+        elif o in ('-g', '--group-name'):
+            group_name = a
         else:
             assert False, 'unhandled option {}'.format(o)
 
-    print('Authenticating via application key')
-    print('Querying {}').format(session_id)
+    print('Looking for group {}'.format(group_name))
 
     session_mgr = PanoptoSessionManager(
         server, username, instance_name, application_key)
 
-    session_mgr.update_session_owner(new_owner, instance_name, session_id)
+    group_guid = session_mgr.get_group_guid(group_name)
+    print('The group guid is: {}'.format(group_guid))
 
 
 if __name__ == "__main__":
