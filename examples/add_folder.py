@@ -19,8 +19,8 @@ def usage():
           '--username <panopto username> '
           '--instance-name <panopto instance name> '
           '--application-key <panopto application key>'
-          '--session-id <panopto session id>'
-          '--viewer <viewer username>')
+          '--folder-name <new folder name>'
+          '--parent <parent folder guid>')
 
 
 def main():
@@ -28,9 +28,9 @@ def main():
     try:
         opts, args = getopt.getopt(
             sys.argv[1:],
-            "hs:u:i:a:v:o:",
+            "hs:u:i:a:f:p:",
             ["help", "server=", "username=", "instance-name=",
-             "application-key=", "session-id=", "viewer="])
+             "application-key=", "folder-name=", "parent="])
     except getopt.GetoptError as err:
         # print help information and exit
         print(str(err))
@@ -54,22 +54,22 @@ def main():
             # An application key, a.k.a the key produced through
             # Panopto > System > Identity Providers
             application_key = a
-        elif o in ('-v', '--session-id'):
+        elif o in ('-f', '--folder-name'):
             # Panopto Session Id, a.k.a the media uuid
-            session_id = a
-        elif o in ('-o', '--viewer'):
+            folder_name = a
+        elif o in ('-p', '--parent'):
             # Panopto Session Id
-            viewer = a
+            parent = a
         else:
             assert False, 'unhandled option {}'.format(o)
 
-    print('Authenticating via application key')
-    print('Querying {}').format(session_id)
+    print('Adding Folder {}'.format(folder_name))
+    print('To Parent {}').format(parent)
 
     session_mgr = PanoptoSessionManager(
         server, username, instance_name, application_key)
 
-    session_mgr.grant_users_viewer_access(session_id, viewer.split(','))
+    session_mgr.add_folder(folder_name, parent)
 
 
 if __name__ == "__main__":
