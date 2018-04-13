@@ -9,6 +9,7 @@ from boto.s3.connection import S3Connection, OrdinaryCallingFormat
 from filechunkio import FileChunkIO
 
 from panopto.auth import PanoptoAuth
+from panopto.session import PanoptoSessionManager
 
 
 class PanoptoUploadTarget(object):
@@ -60,7 +61,7 @@ class PanoptoUpload(object):
     def __init__(self):
         self.files = []
         self.server = None
-        self.folder_id = None
+        self.folder = None
         self.application_key = None
         self.username = None
         self.instance_name = None
@@ -87,7 +88,7 @@ class PanoptoUpload(object):
 
             url = 'https://{}/Panopto/PublicAPI/REST/sessionUpload'.format(
                 self.server)
-            payload = {'FolderId': self.folder_id}
+            payload = {'FolderId': self.folder}
 
             response = self.session.post(url, json=payload)
 
@@ -203,7 +204,7 @@ class PanoptoUpload(object):
 
         payload = {
             'ID': self.target.upload_id,
-            'FolderId': self.folder_id,
+            'FolderId': self.folder,
             'SessionId': None,
             'UploadTarget': self.target.upload_target,
             'State': 1,
@@ -264,3 +265,9 @@ class PanoptoUploadStatus(object):
             return (content['State'], content['SessionId'])
 
         return (0, None)
+
+    def set_viewer(self, panopto_id, viewers):
+        session_mgr = PanoptoSessionManager(
+            self.server, self.username, self.instance_name,
+            self.application_key)
+        session_mgr.grant_users_viewer_access(panopto_id, viewers)
