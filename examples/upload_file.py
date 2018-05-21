@@ -47,7 +47,7 @@ def main():
         elif o in ('-s', '--server'):
             uploader.server = a
         elif o in ('-f', '--folder-id'):
-            uploader.folder_id = a
+            uploader.folder = a
         elif o in ('-u', '--username'):
             # A Panopto username with access to the selected folder
             uploader.username = a
@@ -66,7 +66,7 @@ def main():
 
     print('Authenticating via application key')
     print('Uploading {}').format(uploader.input_file)
-    print('to {}/{}'.format(uploader.server, uploader.folder_id))
+    print('to {}/{}'.format(uploader.server, uploader.folder))
     print('as {}'.format(uploader.username))
 
     if not uploader.create_session():

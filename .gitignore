@@ -9,3 +9,4 @@ node_modules
 dist
 pypanopto.egg-info
 .pytest_cache
+testbed.py

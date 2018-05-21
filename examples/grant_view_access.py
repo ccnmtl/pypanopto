@@ -69,7 +69,7 @@ def main():
     session_mgr = PanoptoSessionManager(
         server, username, instance_name, application_key)
 
-    session_mgr.grant_view_access(viewer, instance_name, session_id)
+    session_mgr.grant_users_viewer_access(session_id, viewer.split(','))
 
 
 if __name__ == "__main__":
