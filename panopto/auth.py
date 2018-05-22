@@ -39,7 +39,9 @@ class PanoptoAuth(object):
         return '%s\\%s' % (instance_name, username)
 
     @classmethod
-    def auth_info(cls, server, username, instance_name, application_key):
+    def auth_info(cls, server, username,
+                  instance_name=None, application_key=None,
+                  password=None):
         '''
             Utility function to retrieve the authenticationInfo for a
             SOAP call. The authInfo allows a short-circuit path to
@@ -53,10 +55,13 @@ class PanoptoAuth(object):
             returns AuthenticationInfo object with hashed auth_code
         '''
         user_key = cls.user_key(username, instance_name)
-        return {
-            'AuthCode': cls._auth_code(server, user_key, application_key),
-            'UserKey': user_key
-        }
+        if password:
+            return {'UserKey': user_key, 'Password': password}
+        elif application_key:
+            code = cls._auth_code(server, user_key, application_key)
+            return {'UserKey': user_key, 'AuthCode': code}
+        else:
+            return None
 
     def authenticate_with_password(self, username, password):
         try:

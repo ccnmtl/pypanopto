@@ -19,6 +19,7 @@ def usage():
           '--server <panopto server> '
           '--folder-id <panopto folder uuid> '
           '--username <panopto username> '
+          '--password <panopto username> '
           '--instance-name <panopto instance name> '
           '--application-key <panopto application key>'
           '--input-file <full upload path>')
@@ -29,8 +30,8 @@ def main():
     try:
         opts, args = getopt.getopt(
             sys.argv[1:],
-            "hs:f:u:i:a:l:",
-            ["help", "server=", "folder-id=", "username=",
+            "hs:f:u:p:i:a:l:",
+            ["help", "server=", "folder-id=", "username=", "password=",
              "instance-name=", "application-key=", "input-file="])
     except getopt.GetoptError as err:
         # print help information and exit:
@@ -51,6 +52,9 @@ def main():
         elif o in ('-u', '--username'):
             # A Panopto username with access to the selected folder
             uploader.username = a
+        elif o in ('-p', '--password'):
+            # The password for the Panopto username
+            uploader.password = a
         elif o in ('-i', '--instance-name'):
             # The instance name as set in
             # Panopto > System > Identity Providers
@@ -89,9 +93,8 @@ def main():
     # Check the status of the upload
     upload_status = PanoptoUploadStatus()
     upload_status.server = uploader.server
-    upload_status.application_key = uploader.application_key
-    upload_status.instance_name = uploader.instance_name
     upload_status.username = uploader.username
+    upload_status.password = uploader.password
     upload_status.upload_id = uploader.get_upload_id()
     while True:
         (state, panopto_id) = upload_status.check()
