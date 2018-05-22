@@ -9,7 +9,6 @@ from boto.s3.connection import S3Connection, OrdinaryCallingFormat
 from filechunkio import FileChunkIO
 
 from panopto.auth import PanoptoAuth
-from panopto.session import PanoptoSessionManager
 
 
 class PanoptoUploadTarget(object):
@@ -62,9 +61,8 @@ class PanoptoUpload(object):
         self.files = []
         self.server = None
         self.folder = None
-        self.application_key = None
         self.username = None
-        self.instance_name = None
+        self.password = None
         self.input_file = None
         self.dest_filename = None
         self.title = None
@@ -80,25 +78,27 @@ class PanoptoUpload(object):
         # authenticate
         auth = PanoptoAuth(self.server)
 
-        self.session = auth.authenticate_with_application_key(
-            self.username, self.instance_name, self.application_key)
+        self.session = auth.authenticate_with_password(
+            self.username, self.password)
 
-        if self.session:
-            self.set_destination_attributes()
+        if not self.session:
+            return False
 
-            url = 'https://{}/Panopto/PublicAPI/REST/sessionUpload'.format(
-                self.server)
-            payload = {'FolderId': self.folder}
+        self.set_destination_attributes()
 
-            response = self.session.post(url, json=payload)
+        url = 'https://{}/Panopto/PublicAPI/REST/sessionUpload'.format(
+            self.server)
+        payload = {'FolderId': self.folder}
 
-            if response.status_code == 201:
-                content = loads(response.content)
-                self.target = PanoptoUploadTarget(
-                    content['ID'], content['UploadTarget'])
-                return True
+        response = self.session.post(url, json=payload)
 
-        return False
+        if response.status_code != 201:
+            return False
+
+        content = loads(response.content)
+        self.target = PanoptoUploadTarget(
+            content['ID'], content['UploadTarget'])
+        return True
 
     def _multipart_manifest(self, parts):
         s = '<CompleteMultipartUpload>\n'
@@ -245,16 +245,15 @@ class PanoptoUploadStatus(object):
 
     def __init__(self):
         self.server = None
-        self.application_key = None
         self.username = None
-        self.instance_name = None
+        self.password = None
         self.upload_id = None
 
     def check(self):
         auth = PanoptoAuth(self.server)
 
-        self.session = auth.authenticate_with_application_key(
-            self.username, self.instance_name, self.application_key)
+        self.session = auth.authenticate_with_password(
+            self.username, self.password)
 
         url = 'https://{}/Panopto/PublicAPI/REST/sessionUpload/{}'.format(
             self.server, self.upload_id)
@@ -265,9 +264,3 @@ class PanoptoUploadStatus(object):
             return (content['State'], content['SessionId'])
 
         return (0, None)
-
-    def set_viewer(self, panopto_id, viewers):
-        session_mgr = PanoptoSessionManager(
-            self.server, self.username, self.instance_name,
-            self.application_key)
-        session_mgr.grant_users_viewer_access(panopto_id, viewers)

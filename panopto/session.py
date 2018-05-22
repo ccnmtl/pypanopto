@@ -7,19 +7,22 @@ from panopto.auth import PanoptoAuth
 
 class PanoptoSessionManager(object):
 
-    def __init__(self, server, username, instance_name, application_key):
+    def __init__(self, server, username,
+                 instance_name=None, application_key=None,
+                 password=None):
         self.client = {
             'session': self._client(server, 'SessionManagement'),
             'access': self._client(server, 'AccessManagement'),
             'user': self._client(server, 'UserManagement')
         }
         self.auth_info = PanoptoAuth.auth_info(
-                server, username, instance_name, application_key)
+                server, username, instance_name, application_key, password)
 
         self.server = server
         self.username = username
         self.instance_name = instance_name
         self.application_key = application_key
+        self.password = password
 
     def _client(self, server, name):
         url = 'https://{}/Panopto/PublicAPI/4.6/{}.svc?wsdl'.format(

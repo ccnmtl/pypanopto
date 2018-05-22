@@ -20,7 +20,8 @@ def usage():
           '--instance-name <panopto instance name> '
           '--application-key <panopto application key>'
           '--folder-name <new folder name>'
-          '--parent <parent folder guid>')
+          '--parent <parent folder guid>'
+          '--password <password>')
 
 
 def main():
@@ -28,9 +29,9 @@ def main():
     try:
         opts, args = getopt.getopt(
             sys.argv[1:],
-            "hs:u:i:a:f:p:",
+            "hs:u:i:a:f:p:w:",
             ["help", "server=", "username=", "instance-name=",
-             "application-key=", "folder-name=", "parent="])
+             "application-key=", "folder-name=", "parent=", "password="])
     except getopt.GetoptError as err:
         # print help information and exit
         print(str(err))
@@ -60,6 +61,8 @@ def main():
         elif o in ('-p', '--parent'):
             # Panopto Session Id
             parent = a
+        elif o in ('-w', '--password'):
+            password = a
         else:
             assert False, 'unhandled option {}'.format(o)
 
@@ -67,7 +70,7 @@ def main():
     print('To Parent {}').format(parent)
 
     session_mgr = PanoptoSessionManager(
-        server, username, instance_name, application_key)
+        server, username, instance_name, application_key, password)
 
     session_mgr.add_folder(folder_name, parent)
 
