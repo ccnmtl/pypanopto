@@ -119,7 +119,7 @@ class PanoptoUpload(object):
             bucket_name=self.target.bucket_name, validate=False)
 
     def upload_media(self):
-        source_file = open(self.input_file, 'r')
+        source_file = open(self.input_file, 'rb')
 
         # Cribbed from http://boto.cloudhackers.com/en/latest/s3_tut.html
         # #storing-large-data
