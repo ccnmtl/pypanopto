@@ -62,7 +62,7 @@ class PanoptoSessionManager(object):
                 auth=self.auth_info, sessionIds=[session_id])
 
             if response is None or len(response) < 1:
-                return ''
+                return None
 
             obj = serialize_object(response)
             return obj[0]['ThumbUrl']
