@@ -29,26 +29,6 @@ class PanoptoSessionManager(object):
             server, name)
         return Client(url)
 
-    def get_user_guids(self, usernames):
-        guids = []
-        for user in usernames:
-            try:
-                auth_info = PanoptoAuth.auth_info(
-                    self.server, user, self.instance_name,
-                    self.application_key)
-                user_key = PanoptoAuth.user_key(user, self.instance_name)
-                response = self.client['user'].service.GetUserByKey(
-                    auth_info, user_key)
-
-                if response is None or len(response) < 1:
-                    continue
-
-                obj = serialize_object(response)
-                guids.append(obj['UserId'])
-            except Fault:
-                return ''
-        return guids
-
     def add_folder(self, name, parent_guid):
         try:
             response = self.client['session'].service.AddFolder(
@@ -63,34 +43,6 @@ class PanoptoSessionManager(object):
         except Fault:
             return ''
 
-    def grant_group_folder_access_by_guid(self, folder, group):
-        try:
-            api = self.client['access']
-            response = api.service.GrantGroupAccessToFolder(
-                auth=self.auth_info, folderId=folder, groupId=group,
-                role='Viewer')
-
-            if response is None or len(response) < 1:
-                return False
-
-            return True
-        except Fault:
-            return False
-
-    def revoke_group_folder_access_by_guid(self, folder, group):
-        try:
-            api = self.client['access']
-            response = api.service.RevokeGroupAccessFromFolder(
-                auth=self.auth_info, folderId=folder, groupId=group,
-                role='Viewer')
-
-            if response is None or len(response) < 1:
-                return False
-
-            return True
-        except Fault:
-            return False
-
     def get_session_url(self, session_id):
         try:
             response = self.client['session'].service.GetSessionsById(
@@ -104,20 +56,15 @@ class PanoptoSessionManager(object):
         except Fault:
             return ''
 
-    def grant_users_viewer_access(self, session_id, usernames):
-        '''
-            Update a session's owner, can only be called by an admin
-            or the creator.
-        '''
+    def get_thumb_url(self, session_id):
         try:
-            guids = self.get_user_guids(usernames)
-            api = self.client['access']
-            response = api.service.GrantUsersViewerAccessToSession(
-                auth=self.auth_info, sessionId=session_id, userIds=guids)
+            response = self.client['session'].service.GetSessionsById(
+                auth=self.auth_info, sessionIds=[session_id])
 
             if response is None or len(response) < 1:
-                return False
+                return ''
 
-            return True
+            obj = serialize_object(response)
+            return obj[0]['ThumbUrl']
         except Fault:
-            return False
+            return None

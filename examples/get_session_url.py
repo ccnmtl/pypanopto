@@ -18,7 +18,7 @@ def usage():
           '--server <panopto server> '
           '--username <panopto username> '
           '--instance-name <panopto instance name> '
-          '--application-key <panopto application key>'
+          '--password <panopto password>'
           '--session-id <panopto session id>')
 
 
@@ -27,9 +27,9 @@ def main():
     try:
         opts, args = getopt.getopt(
             sys.argv[1:],
-            "hs:u:i:a:v:",
+            "hs:u:i:p:v:",
             ["help", "server=", "username=", "instance-name=",
-             "application-key=", "session-id="])
+             "password=", "session-id="])
     except getopt.GetoptError as err:
         # print help information and exit
         print(str(err))
@@ -49,10 +49,10 @@ def main():
             # The instance name as set in
             # Panopto > System > Identity Providers
             instance_name = a
-        elif o in ('-a', '--application-key'):
+        elif o in ('-p', '--password'):
             # An application key, a.k.a the key produced through
             # Panopto > System > Identity Providers
-            application_key = a
+            password = a
         elif o in ('-v', '--session-id'):
             # Panopto Session Id
             session_id = a
@@ -63,9 +63,10 @@ def main():
     print('Querying {}').format(session_id)
 
     session_mgr = PanoptoSessionManager(
-        server, username, instance_name, application_key)
+        server, username, instance_name, password=password)
 
     print(session_mgr.get_session_url(session_id))
+    print(session_mgr.get_thumb_url(session_id))
 
 
 if __name__ == "__main__":
