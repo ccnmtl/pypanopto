@@ -129,7 +129,7 @@ class PanoptoUpload(object):
         mp.key_name = key_name
 
         parts = []
-        chunk_size = 52428800
+        chunk_size = 13107200
         source_size = os.stat(self.input_file).st_size
         chunk_count = int(math.ceil(source_size / float(chunk_size)))
 
