@@ -1,3 +1,8 @@
+0.0.4 (2018-06-07)
+===================
+* multipart uploads are completed in smaller chunks
+* manifest files get unique names
+
 0.0.3  (2018-05-27)
 ===================
 * retrieve thumbnail url
