@@ -10,3 +10,4 @@ dist
 pypanopto.egg-info
 .pytest_cache
 testbed.py
+.settings

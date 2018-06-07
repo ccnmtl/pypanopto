@@ -3,6 +3,7 @@ from json import loads
 import math
 import os
 import re
+import uuid
 
 from boto.compat import BytesIO
 from boto.s3.connection import S3Connection, OrdinaryCallingFormat
@@ -67,12 +68,16 @@ class PanoptoUpload(object):
         self.dest_filename = None
         self.title = None
         self.description = None
+        self.uuid = str(uuid.uuid4())
 
     def set_destination_attributes(self):
-        if not self.dest_filename:
-            self.dest_filename = os.path.basename(self.input_file)
+        path, filename = os.path.split(self.input_file)
+
+        fname, ext = os.path.splitext(filename)
+        self.dest_filename = '{}{}'.format(self.uuid, ext)
+
         if not self.title:
-            self.title = self.dest_filename
+            self.title = fname
 
     def create_session(self):
         # authenticate
@@ -185,7 +190,7 @@ class PanoptoUpload(object):
 
         source_file = BytesIO(manifest.encode('utf-8'))
 
-        key_name = self.target.file_key('manifest.xml')
+        key_name = self.target.file_key('{}.xml'.format(self.uuid))
         mp = self.bucket.initiate_multipart_upload(key_name)
         mp.key_name = key_name
 
