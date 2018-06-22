@@ -15,7 +15,7 @@ flake8==3.5.0
 boto==2.48.0
 filechunkio==1.8
 defusedxml==0.5.0
-lxml==4.2.1
+lxml==4.2.2
 requests-toolbelt==0.8.0
 isodate==0.6.0
 cached-property==1.4.3
