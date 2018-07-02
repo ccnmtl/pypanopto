@@ -1,7 +1,7 @@
 # pypanopto
 The `pypanopto` library provides Python integration with the [Panopto SOAP API](https://support.panopto.com/s/article/api-0) and the [Panopto Upload API](https://support.panopto.com/s/article/Upload-API).
 
-The library currently supports a small set of api endpoints. The [Zeep client](http://docs.python-zeep.org/en/master/) handles the underlying Soap interaction.
+The library currently supports a small set of API endpoints. The [Zeep client](http://docs.python-zeep.org/en/master/) handles the underlying SOAP interaction.
 * [LogOnWithPassword](https://support.panopto.com/resource/PanoptoSupport/API/Help/html/bfb68bf4-a7f7-f0c8-21cb-ebdaf9130caa.htm)
 * [LogOnWithExternalProvider](https://support.panopto.com/resource/PanoptoSupport/API/Help/html/2765bd4f-5986-8c21-9d80-d896f37776cf.htm)
 * [GetSessionById](https://support.panopto.com/resource/PanoptoSupport/API/Help/html/65f91dc0-f111-9446-b77b-262b67409687.htm)
