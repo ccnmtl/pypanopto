@@ -26,7 +26,7 @@ $(PY_SENTINAL): $(REQUIREMENTS) $(VIRTUALENV) $(SUPPORT_DIR)*
 	touch $@
 
 test: $(PY_SENTINAL)
-	$(PYTEST) $(PY_DIRS)
+	$(PYTEST) panopto
 
 flake8: $(PY_SENTINAL)
 	$(FLAKE8) $(PY_DIRS)
