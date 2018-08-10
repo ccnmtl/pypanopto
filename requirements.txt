@@ -30,4 +30,4 @@ pbr==4.2.0
 more_itertools==4.3.0
 atomicwrites==1.1.5
 pathlib2==2.3.2
-scandir==1.8
+scandir==1.9.0
