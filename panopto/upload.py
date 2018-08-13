@@ -159,6 +159,25 @@ class PanoptoUpload(object):
 
     def _panopto_manifest(self, dest_filename, title, descript):
         dt = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000-00:00')
+
+        from lxml import etree
+        namespace_map = {
+            'i': 'http://www.w3.org/2001/XMLSchema-instance',
+            None: 'http://panopto.com/PanoptoSession/v1'
+        }
+
+        # create XML
+        root = etree.Element('PanoptoSession')
+        root.append(etree.Element('child'))
+        # another child with text
+        child = etree.Element('child')
+        child.text = 'some text'
+        root.append(child)
+
+        # pretty string
+        return etree.tostring(root, pretty_print=True)
+
+
         return '''<PanoptoSession
             xmlns:i="http://www.w3.org/2001/XMLSchema-instance"
             xmlns="http://panopto.com/PanoptoSession/v1">
