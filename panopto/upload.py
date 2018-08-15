@@ -3,11 +3,13 @@ from json import loads
 import math
 import os
 import re
+import unicodedata
 import uuid
 
 from boto.compat import BytesIO
 from boto.s3.connection import S3Connection, OrdinaryCallingFormat
 from filechunkio import FileChunkIO
+from lxml import etree
 
 from panopto.auth import PanoptoAuth
 
@@ -158,30 +160,60 @@ class PanoptoUpload(object):
         source_file.close()
 
     def _panopto_manifest(self, dest_filename, title, descript):
-        dt = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000-00:00')
-        return '''<PanoptoSession
-            xmlns:i="http://www.w3.org/2001/XMLSchema-instance"
-            xmlns="http://panopto.com/PanoptoSession/v1">
-            <Title>{}</Title>
-            <Description>{}</Description>
-            <Date>{}</Date>
-            <Videos>
-                <Video>
-                    <Start>PT0S</Start>
-                    <Filename>{}</Filename>
-                    <Cuts />
-                    <TableOfContents />
-                    <Type>Primary</Type>
-                    <Transcripts />
-                </Video>
-            </Videos>
-            <Presentations />
-            <Images />
-            <Cuts />
-            <Tags />
-            <Extensions />
-            <Attachments />
-        </PanoptoSession>'''.format(title, descript, dt, dest_filename)
+        namespace_map = {
+            'i': 'http://www.w3.org/2001/XMLSchema-instance',
+            None: 'http://panopto.com/PanoptoSession/v1'
+        }
+
+        # create XML
+        root = etree.Element('PanoptoSession', nsmap=namespace_map)
+
+        elt = etree.Element('Title')
+        elt.text = title
+        root.append(elt)
+
+        elt = etree.Element('Description')
+        elt.text = unicodedata.normalize('NFKD', descript)
+        root.append(elt)
+
+        elt = etree.Element('Date')
+        elt.text = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000-00:00')
+        root.append(elt)
+
+        video = etree.Element('Video')
+        elt = etree.Element('Start')
+        elt.text = 'PT0S'
+        video.append(elt)
+
+        elt = etree.Element('Filename')
+        elt.text = dest_filename
+        video.append(elt)
+
+        video.append(etree.Element('Cuts'))
+        video.append(etree.Element('TableOfContents'))
+
+        elt = etree.Element('Type')
+        elt.text = 'Primary'
+        video.append(elt)
+
+        video.append(etree.Element('Transcipts'))
+
+        videos = etree.Element('Videos')
+        videos.append(video)
+        root.append(videos)
+
+        root.append(etree.Element('Presentations'))
+        root.append(etree.Element('Images'))
+        root.append(etree.Element('Cuts'))
+        root.append(etree.Element('Tags'))
+        root.append(etree.Element('Extensions'))
+        root.append(etree.Element('Attachments'))
+
+        # pretty string
+        manifest = etree.tostring(root,  encoding='UTF-8')
+        manifest = manifest.replace('\n', '&#10;&#10;')
+
+        return manifest
 
     def upload_manifest(self):
         # create and upload a manifest file for panopto
