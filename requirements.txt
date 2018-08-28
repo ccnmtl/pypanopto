@@ -23,7 +23,7 @@ zeep==2.5.0 # pyup: <3.0.0
 attrs==18.1.0
 pluggy==0.7.1
 funcsigs==1.0.2
-py==1.5.4
+py==1.6.0
 pytest==3.7.3
 mock==2.0.0
 pbr==4.2.0
