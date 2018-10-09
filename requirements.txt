@@ -28,6 +28,6 @@ pytest==3.8.1
 mock==2.0.0
 pbr==4.3.0
 more_itertools==4.3.0
-atomicwrites==1.2.0
+atomicwrites==1.2.1
 pathlib2==2.3.2
 scandir==1.9.0
