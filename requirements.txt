@@ -5,7 +5,7 @@ chardet==3.0.4
 idna==2.8
 certifi==2018.11.29
 urllib3==1.24.1
-requests==2.20.1
+requests==2.21.0
 pep8==1.7.1
 pyflakes==2.0.0
 pycodestyle==2.4.0
@@ -31,3 +31,4 @@ more_itertools==4.3.0
 atomicwrites==1.2.1
 pathlib2==2.3.3
 scandir==1.9.0
+google_compute_engine==2.8.12
