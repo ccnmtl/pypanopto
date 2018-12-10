@@ -1,4 +1,5 @@
-# pypanopto
+# pypanopto  [![Build Status](https://travis-ci.org/ccnmtl/pypanopto.svg?branch=master)](https://travis-ci.org/ccnmtl/pypanopto)
+
 The `pypanopto` library provides Python integration with the [Panopto SOAP API](https://support.panopto.com/s/article/api-0) and the [Panopto Upload API](https://support.panopto.com/s/article/Upload-API).
 
 The library currently supports a small set of API endpoints. The [Zeep client](http://docs.python-zeep.org/en/master/) handles the underlying SOAP interaction.
