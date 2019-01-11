@@ -43,6 +43,22 @@ class PanoptoSessionManager(object):
         except Fault:
             return ''
 
+    def get_folder(self, parent_guid, name):
+        try:
+            response = self.client['session'].service.GetCreatorFoldersList(
+                auth=self.auth_info, request={'ParentFolderId': parent_guid})
+
+            if response is None or len(response) < 1:
+                return ''
+
+            obj = serialize_object(response)
+            for folder in obj['Results']['Folder']:
+                if folder['Name'] == name:
+                    return folder['Id']
+            return ''
+        except Fault:
+            return ''
+
     def get_session_url(self, session_id):
         try:
             response = self.client['session'].service.GetSessionsById(
