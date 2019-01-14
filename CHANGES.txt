@@ -1,3 +1,7 @@
+0.0.6 (2019-01-14)
+===================
+* add get_folder endpoint
+
 0.0.5 (2018-08-21)
 ===================
 * compose xml manifest with lxml
