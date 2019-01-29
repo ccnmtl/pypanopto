@@ -8,7 +8,7 @@ urllib3==1.24.1
 requests==2.21.0
 pep8==1.7.1
 pyflakes==2.1.0
-pycodestyle==2.4.0
+pycodestyle==2.5.0
 configparser==3.5.0
 enum34==1.1.6
 flake8==3.6.0
