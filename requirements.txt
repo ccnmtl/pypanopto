@@ -33,3 +33,7 @@ pathlib2==2.3.3
 scandir==1.9.0
 distro==1.4.0  # for google_compute_engine
 google_compute_engine==2.8.13
+
+typing==3.6.6
+entrypoints==0.3
+functools32==3.2.3-2; python_version < '3'
