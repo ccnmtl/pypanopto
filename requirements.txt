@@ -11,7 +11,7 @@ pyflakes==2.1.0
 pycodestyle==2.5.0
 configparser==3.7.1
 enum34==1.1.6
-flake8==3.6.0
+flake8==3.7.5
 boto==2.49.0
 filechunkio==1.8
 defusedxml==0.5.0
@@ -33,3 +33,7 @@ pathlib2==2.3.3
 scandir==1.9.0
 distro==1.4.0  # for google_compute_engine
 google_compute_engine==2.8.13
+
+typing==3.6.6
+entrypoints==0.3
+functools32==3.2.3-2; python_version < '3'
