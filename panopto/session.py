@@ -30,7 +30,7 @@ class PanoptoSessionManager(object):
         url = 'https://{}/Panopto/PublicAPI/4.6/{}.svc?wsdl'.format(
             server, name)
         if cache_dir:
-            cache=SqliteCache(path=cache_dir)
+            cache = SqliteCache(path=cache_dir)
             transport = Transport(cache=cache, timeout=1440)
         else:
             transport = Transport()
