@@ -1,3 +1,7 @@
+0.0.7 (2019-04-30)
+===================
+* add wsdl caching abilities
+
 0.0.6 (2019-01-14)
 ===================
 * add get_folder endpoint
