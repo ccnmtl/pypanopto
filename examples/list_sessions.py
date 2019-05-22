@@ -14,7 +14,7 @@ def getopts(argv):
 
 
 def usage():
-    print('python examples.move_session '
+    print('python examples.list_sessions '
           '--server <panopto server> '
           '--username <panopto username> '
           '--instance-name <panopto instance name> '

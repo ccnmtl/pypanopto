@@ -14,12 +14,13 @@ def getopts(argv):
 
 
 def usage():
-    print('python examples.move_session '
+    print('python examples.get_folder '
           '--server <panopto server> '
           '--username <panopto username> '
           '--instance-name <panopto instance name> '
           '--password <panopto password>'
-          '--folder-name <panopto folder name>')
+          '--folder-name <panopto folder name>'
+          '--parent <panopto parent folder guid>')
 
 
 def main():
