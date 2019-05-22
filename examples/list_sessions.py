@@ -19,7 +19,7 @@ def usage():
           '--username <panopto username> '
           '--instance-name <panopto instance name> '
           '--password <panopto password>'
-          '--folder-name <panopto folder name>')
+          '--folder <panopto folder uuid>')
 
 
 def main():
@@ -27,9 +27,9 @@ def main():
     try:
         opts, args = getopt.getopt(
             sys.argv[1:],
-            "hs:u:i:p:n:f:",
-            ["help", "server=", "username=", "instance-name=", "password=",
-             "folder-name=", "parent=", ])
+            "hs:u:i:p:v:f:",
+            ["help", "server=", "username=", "instance-name=",
+             "password=", "folder="])
     except getopt.GetoptError as err:
         # print help information and exit
         print(str(err))
@@ -43,20 +43,18 @@ def main():
         elif o in ('-s', '--server'):
             server = a
         elif o in ('-u', '--username'):
-            # Panopto username with access to the selected folder
+            # A Panopto username with access to the selected folder
             username = a
         elif o in ('-i', '--instance-name'):
             # The instance name as set in
             # Panopto > System > Identity Providers
             instance_name = a
         elif o in ('-p', '--password'):
+            # An application key, a.k.a the key produced through
+            # Panopto > System > Identity Providers
             password = a
-        elif o in ('-n', '--folder-name'):
-            # name of the subfolder we're looking for
-            folder_name = a
-        elif o in ('-f', '--parent'):
-            # parent folder guid
-            parent = a
+        elif o in ('-f', '--folder'):
+            folder = a
         else:
             assert False, 'unhandled option {}'.format(o)
 
@@ -64,9 +62,17 @@ def main():
     session_mgr = PanoptoSessionManager(
         server, username, instance_name, password=password)
 
-    print('Get {} subfolder named {}').format(parent, folder_name)
-    folder_id = session_mgr.get_folder(parent, folder_name)
-    print(folder_id)
+    print('Listing contents of {}').format(folder)
+    sessions = session_mgr.get_session_list(folder)
+
+    for session in sessions:
+        print('State: {}'.format(session['State']))
+        print('Name: {}'.format(session['Name']))
+        print('Duration: {}'.format(session['Duration']))
+        print('Delivery Id: {}'.format(session['Id']))
+        print('MP4 Url: {}'.format(session['MP4Url']))
+        print('Viewer Url: {}'.format(session['ViewerUrl']))
+        print('Description: {}'.format(session['Description']))
 
 
 if __name__ == "__main__":
