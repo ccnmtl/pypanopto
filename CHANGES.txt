@@ -1,3 +1,7 @@
+0.0.8 (2019-05-23)
+===================
+* add support for MoveSessions and GetSessionsList
+
 0.0.7 (2019-04-30)
 ===================
 * add wsdl caching abilities
