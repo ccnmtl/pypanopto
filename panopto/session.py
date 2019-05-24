@@ -101,13 +101,14 @@ class PanoptoSessionManager(object):
             response = self.client['session'].service.GetSessionsList(
                 auth=self.auth_info, request=request, searchQuery=None)
 
-            if response is None or len(response) < 1:
-                return None
+            if (response is None or len(response) < 1 or
+                    response['TotalNumberResults'] == 0):
+                return []
 
             obj = serialize_object(response)
             return obj['Results']['Session']
         except Fault:
-            return None
+            return []
 
     def move_sessions(self, session_ids, folder):
         try:
