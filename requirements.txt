@@ -21,7 +21,7 @@ isodate==0.6.0
 cached-property==1.5.1
 zeep==2.5.0 # pyup: <3.0.0
 attrs==19.1.0
-pluggy==0.11.0
+pluggy==0.12.0
 funcsigs==1.0.2
 py==1.8.0
 pytest==4.5.0
@@ -38,3 +38,6 @@ typing==3.7.4
 entrypoints==0.3
 functools32==3.2.3-2; python_version < '3'
 appdirs==1.4.3
+importlib_metadata==0.18
+zipp==0.5.2
+contextlib2==0.5.5
