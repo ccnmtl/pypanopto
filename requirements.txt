@@ -38,3 +38,6 @@ typing==3.6.6
 entrypoints==0.3
 functools32==3.2.3-2; python_version < '3'
 appdirs==1.4.3
+importlib_metadata==0.18
+zipp==0.5.2
+contextlib2==0.5.5
