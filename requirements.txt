@@ -24,7 +24,7 @@ attrs==19.1.0
 pluggy==0.12.0
 funcsigs==1.0.2
 py==1.8.0
-pytest==4.5.0 # pyup: < 5.0.0
+pytest==4.6.4 # pyup: < 5.0.0
 mock==3.0.5
 pbr==5.4.1
 more_itertools==5.0.0 # pyup: < 6.0.0
@@ -41,3 +41,4 @@ appdirs==1.4.3
 importlib_metadata==0.18
 zipp==0.5.2
 contextlib2==0.5.5
+packaging==19.0
