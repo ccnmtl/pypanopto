@@ -41,4 +41,4 @@ appdirs==1.4.3
 importlib_metadata==0.18
 zipp==0.5.2
 contextlib2==0.5.5
-packaging==19.0
+packaging==19.1
