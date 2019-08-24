@@ -39,6 +39,6 @@ entrypoints==0.3
 functools32==3.2.3-2; python_version < '3'
 appdirs==1.4.3
 importlib_metadata==0.19
-zipp==0.5.2
+zipp==0.6.0
 contextlib2==0.5.5
 packaging==19.1
