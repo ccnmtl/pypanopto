@@ -38,7 +38,7 @@ typing==3.7.4.1; python_version < '3.5'
 entrypoints==0.3
 functools32==3.2.3-2; python_version < '3'
 appdirs==1.4.3
-importlib_metadata==0.19
+importlib_metadata==0.20
 zipp==0.6.0
 contextlib2==0.5.5
 packaging==19.1
