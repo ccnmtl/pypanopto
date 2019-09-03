@@ -63,7 +63,7 @@ class PanoptoSessionManager(object):
                 if folder['Name'] == name:
                     return folder['Id']
             return ''
-        except Fault:
+        except (Fault, TypeError):
             return ''
 
     def get_session_url(self, session_id):
