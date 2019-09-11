@@ -33,7 +33,10 @@ setup(
     url="https://github.com/ccnmtl/pypanopto",
     description="LTI helper",
     long_description="LTI Helper",
-    install_requires=["lxml"],
+    install_requires=[
+        "lxml",
+        "zeep",
+    ],
     scripts=[],
     license="GPLv3+",
     platforms=["any"],
