@@ -40,5 +40,5 @@ functools32==3.2.3-2; python_version < '3'
 appdirs==1.4.3
 importlib_metadata==0.23
 zipp==0.6.0
-contextlib2==0.5.5
+contextlib2==0.6.0
 packaging==19.2
