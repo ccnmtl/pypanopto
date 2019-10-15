@@ -66,6 +66,34 @@ class PanoptoSessionManager(object):
         except (Fault, TypeError):
             return ''
 
+    def get_folder_access_details(self, folder_id):
+        try:
+            response = self.client['access'].service.GetFolderAccessDetails(
+                auth=self.auth_info, folderId=folder_id)
+
+            if response is None or len(response) < 1:
+                return ''
+
+            obj = serialize_object(response)
+            return obj['GroupsWithCreatorAccess']
+        except (Fault, TypeError):
+            return ''
+
+    def grant_group_access_to_folder(self, folder_id, group_id):
+        try:
+            # Grant creator access to specified group
+            self.client['access'].service.GrantGroupAccessToFolder(
+                auth=self.auth_info, folderId=folder_id, groupId=group_id)
+
+            return True
+        except Fault:
+            return False
+
+    def inherit_folder_access(self, from_folder_id, to_folder_id):
+        groups = self.get_folder_access_details(from_folder_id)
+        for group in groups['guid']:
+            self.grant_group_access_to_folder(to_folder_id, group)
+
     def get_session_url(self, session_id):
         try:
             response = self.client['session'].service.GetSessionsById(
