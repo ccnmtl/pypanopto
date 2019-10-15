@@ -27,7 +27,7 @@ from setuptools import setup
 
 setup(
     name="pypanopto",
-    version="0.1.0",
+    version="0.1.1",
     author="Susan Dreher",
     author_email="sdreher@columbia.edu",
     url="https://github.com/ccnmtl/pypanopto",
