@@ -211,7 +211,7 @@ class PanoptoUpload(object):
 
         # pretty string
         manifest = etree.tostring(root,  encoding='UTF-8')
-        manifest = manifest.replace('\n', '&#10;&#10;')
+        manifest = str(manifest).replace('\n', '&#10;&#10;')
 
         return manifest
 
