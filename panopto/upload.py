@@ -194,17 +194,13 @@ class PanoptoUpload(object):
         root.append(etree.Element('Extensions'))
         root.append(etree.Element('Attachments'))
 
-        # pretty string
-        manifest = etree.tostring(root,  encoding='UTF-8')
-        manifest = str(manifest).replace('\n', '&#10;&#10;')
-
-        return manifest
+        return etree.tostring(root,  encoding='UTF-8')
 
     def upload_manifest(self):
         # create and upload a manifest file for panopto
         manifest = self._panopto_manifest(
             self.dest_filename, self.title, self.description)
-        source_file = BytesIO(manifest.encode('utf-8'))
+        source_file = BytesIO(manifest)
         key_name = self.target.file_key('{}.xml'.format(self.uuid))
 
         config = TransferConfig(multipart_threshold=1, io_chunksize=13107200)
