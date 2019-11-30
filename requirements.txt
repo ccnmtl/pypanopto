@@ -10,10 +10,13 @@ pep8==1.7.1
 pyflakes==2.1.1
 pycodestyle==2.5.0
 configparser==4.0.2
-enum34==1.1.6
+enum34==1.1.6; python_version < '3.4'
 flake8==3.7.9
-boto==2.49.0
-filechunkio==1.8
+s3transfer==0.2.1
+jmespath==0.9.4
+futures==3.3.0; python_version < '3'
+botocore>=1.12.198,<1.14.0
+boto3>=1.9.198,<1.11.0
 defusedxml==0.6.0
 lxml==4.4.2
 requests-toolbelt==0.9.1

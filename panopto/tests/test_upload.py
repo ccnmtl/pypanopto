@@ -13,16 +13,16 @@ class TestPanoptoUploadTarget(unittest.TestCase):
         self.obj = PanoptoUploadTarget(upload_id, target)
 
         self.assertEqual(self.obj.host(),
-                         'test.hosted.panopto.com')
+                         'https://test.hosted.panopto.com')
 
-        self.assertEqual(self.obj.bucket_name, 'Panopto/Upload')
+        self.assertEqual(self.obj.bucket_name, 'Panopto')
 
         self.assertEqual(self.obj.file_key('foo.mp4'),
-                         'ac6bef38-19a8-46ce-996a-e863012b0747/foo.mp4')
+                         'Upload/ac6bef38-19a8-46ce-996a-e863012b0747/foo.mp4')
 
     def test_pypanopto_manifest(self):
         uploader = PanoptoUpload()
         manifest = uploader._panopto_manifest('/tmp', u'foo', u'foo bar')
-        self.assertTrue('<Title>foo</Title>' in manifest)
-        self.assertTrue('<Filename>/tmp</Filename>' in manifest)
-        self.assertTrue('<Description>foo bar</Description>' in manifest)
+        self.assertTrue(b'<Title>foo</Title>' in manifest)
+        self.assertTrue(b'<Filename>/tmp</Filename>' in manifest)
+        self.assertTrue(b'<Description>foo bar</Description>' in manifest)

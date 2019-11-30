@@ -59,17 +59,13 @@ def main():
             # The instance name as set in
             # Panopto > System > Identity Providers
             uploader.instance_name = a
-        elif o in ('-a', '--application-key'):
-            # An application key, a.k.a the key produced through
-            # Panopto > System > Identity Providers
-            uploader.application_key = a
         elif o in ('-l', '--input-file'):
             uploader.input_file = a
         else:
             assert False, 'unhandled option'
 
-    print('Authenticating via application key')
-    print('Uploading {}').format(uploader.input_file)
+    print('Authenticating via username and password')
+    print('Uploading {}'.format(uploader.input_file))
     print('to {}/{}'.format(uploader.server, uploader.folder))
     print('as {}'.format(uploader.username))
 

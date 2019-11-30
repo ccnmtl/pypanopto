@@ -1,3 +1,4 @@
+from _io import BytesIO
 from datetime import datetime
 from json import loads
 import math
@@ -6,11 +7,12 @@ import re
 import unicodedata
 import uuid
 
-from boto.compat import BytesIO
-from boto.s3.connection import S3Connection, OrdinaryCallingFormat
-from filechunkio import FileChunkIO
+import boto3
 from lxml import etree
 
+from boto3.s3.transfer import TransferConfig
+from botocore import UNSIGNED
+from botocore.client import Config
 from panopto.auth import PanoptoAuth
 
 
@@ -29,12 +31,12 @@ class PanoptoUploadTarget(object):
         m = re.match(
             r'https:\/\/(.*)\/Panopto\/(.*)\/(.*)', upload_target)
 
-        self.hostname = '{}'.format(m.group(1))
-        self.bucket_name = 'Panopto/{}'.format(m.group(2))
-        self.guid = m.group(3)
+        self.hostname = 'https://{}'.format(m.group(1))
+        self.bucket_name = 'Panopto'
+        self.key_base = '{}/{}'.format(m.group(2), m.group(3))
 
     def file_key(self, filename):
-        return '{}/{}'.format(self.guid, filename)
+        return '{}/{}'.format(self.key_base, filename)
 
     def host(self):
         return self.hostname
@@ -107,55 +109,38 @@ class PanoptoUpload(object):
             content['ID'], content['UploadTarget'])
         return True
 
-    def _multipart_manifest(self, parts):
-        s = '<CompleteMultipartUpload>\n'
-        for part in parts:
-            s += '  <Part>\n'
-            s += '    <PartNumber>%d</PartNumber>\n' % part['part_number']
-            s += '    <ETag>%s</ETag>\n' % part['etag']
-            s += '  </Part>\n'
-        s += '</CompleteMultipartUpload>'
-
-        return s
-
     def create_bucket(self):
-        conn = S3Connection(host=self.target.host(),
-                            calling_format=OrdinaryCallingFormat(),
-                            anon=True)
-        self.bucket = conn.get_bucket(
-            bucket_name=self.target.bucket_name, validate=False)
+        self.s3 = boto3.client('s3', aws_access_key_id=None,
+                               aws_secret_access_key=None,
+                               endpoint_url=self.target.host(),
+                               config=Config(signature_version=UNSIGNED))
 
     def upload_media(self):
         source_file = open(self.input_file, 'rb')
-
-        # Cribbed from http://boto.cloudhackers.com/en/latest/s3_tut.html
-        # #storing-large-data
-        # Create a multipart upload request
         key_name = self.target.file_key(self.dest_filename)
-        mp = self.bucket.initiate_multipart_upload(key_name)
-        mp.key_name = key_name
+        upload_id = self.s3.create_multipart_upload(
+            Bucket=self.target.bucket_name, Key=key_name)['UploadId']
 
         parts = []
         chunk_size = 13107200
         source_size = os.stat(self.input_file).st_size
         chunk_count = int(math.ceil(source_size / float(chunk_size)))
 
-        # Send the file parts, using FileChunkIO to create a file-like object
-        # that points to a certain byte range within the original file. We
-        # set bytes to never exceed the original file size.
         for i in range(chunk_count):
             offset = chunk_size * i
             byte_count = min(chunk_size, source_size - offset)
-            with FileChunkIO(source_file.name, 'r',
-                             offset=offset, bytes=byte_count) as fp:
-                key = mp.upload_part_from_file(
-                    fp, part_num=i + 1, size=byte_count)
-                parts.append({
-                    'part_number': i + 1, 'etag': key.etag})
 
-        # Finish the upload by sending a manifest file with the parts listed
-        self.bucket.complete_multipart_upload(
-            mp.key_name, mp.id, self._multipart_manifest(parts))
+            data = source_file.read(byte_count)
+            part = self.s3.upload_part(
+                Bucket=self.target.bucket_name, Body=data, Key=key_name,
+                UploadId=upload_id, PartNumber=i)
+            parts.append({'PartNumber': i, 'ETag': part['ETag']})
+
+        self.s3.complete_multipart_upload(
+            Bucket=self.target.bucket_name,
+            Key=key_name,
+            UploadId=upload_id,
+            MultipartUpload={'Parts': parts})
 
         source_file.close()
 
@@ -173,7 +158,7 @@ class PanoptoUpload(object):
         root.append(elt)
 
         elt = etree.Element('Description')
-        elt.text = unicodedata.normalize('NFKD', descript)
+        elt.text = unicodedata.normalize('NFKD', descript or u'')
         root.append(elt)
 
         elt = etree.Element('Date')
@@ -209,31 +194,19 @@ class PanoptoUpload(object):
         root.append(etree.Element('Extensions'))
         root.append(etree.Element('Attachments'))
 
-        # pretty string
-        manifest = etree.tostring(root,  encoding='UTF-8')
-        manifest = str(manifest).replace('\n', '&#10;&#10;')
-
-        return manifest
+        return etree.tostring(root,  encoding='UTF-8')
 
     def upload_manifest(self):
         # create and upload a manifest file for panopto
         manifest = self._panopto_manifest(
             self.dest_filename, self.title, self.description)
-
-        source_file = BytesIO(manifest.encode('utf-8'))
-
+        source_file = BytesIO(manifest)
         key_name = self.target.file_key('{}.xml'.format(self.uuid))
-        mp = self.bucket.initiate_multipart_upload(key_name)
-        mp.key_name = key_name
 
-        key = mp.upload_part_from_file(
-            source_file, part_num=1, size=len(manifest))
-        parts = [{'part_number': 1, 'etag': key.etag}]
+        config = TransferConfig(multipart_threshold=1, io_chunksize=13107200)
 
-        self.bucket.complete_multipart_upload(
-            mp.key_name, mp.id, self._multipart_manifest(parts))
-
-        source_file.close()
+        self.s3.upload_fileobj(
+            source_file, self.target.bucket_name, key_name, Config=config)
 
     def complete_session(self):
         url = 'https://{}/Panopto/PublicAPI/REST/sessionUpload/{}'.format(
