@@ -15,7 +15,7 @@ flake8==3.7.9
 s3transfer==0.2.1
 jmespath==0.9.4
 futures==3.3.0; python_version < '3'
-botocore==1.14.0
+botocore>=1.14.0,<1.15.0
 boto3>=1.9.198,<1.11.0
 defusedxml==0.6.0
 lxml==4.4.2
