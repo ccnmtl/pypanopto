@@ -1,6 +1,6 @@
 pytz==2019.3
 python-dateutil==2.8.1
-six==1.13.0
+six==1.14.0
 chardet==3.0.4
 idna==2.8
 certifi==2019.11.28
