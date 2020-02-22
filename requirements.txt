@@ -10,7 +10,7 @@ pep8==1.7.1
 pyflakes==2.1.1
 pycodestyle==2.5.0
 configparser==4.0.2
-enum34==1.1.6; python_version < '3.4'
+enum34==1.1.9; python_version < '3.4'
 flake8==3.7.9
 s3transfer==0.3.3
 jmespath==0.9.4
