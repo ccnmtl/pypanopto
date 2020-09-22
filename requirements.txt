@@ -21,7 +21,7 @@ defusedxml==0.6.0
 lxml==4.5.2
 requests-toolbelt==0.9.1
 isodate==0.6.0
-cached-property==1.5.1
+cached-property==1.5.2
 zeep==3.4.0
 attrs==20.2.0
 pluggy==0.13.1
