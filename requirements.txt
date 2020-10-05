@@ -27,7 +27,7 @@ attrs==20.2.0
 pluggy==0.13.1
 funcsigs==1.0.2
 py==1.9.0
-pytest==6.1.0
+pytest==6.1.1
 mock==4.0.2
 pbr==5.5.0
 more_itertools==8.5.0
