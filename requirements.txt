@@ -42,4 +42,4 @@ zipp==3.3.1
 importlib_metadata==2.0.0
 contextlib2==0.6.0.post1
 packaging==20.4
-iniconfig==1.0.1
+iniconfig==1.1.1
