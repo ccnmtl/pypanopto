@@ -22,7 +22,7 @@ lxml==4.6.1
 requests-toolbelt==0.9.1
 isodate==0.6.0
 cached-property==1.5.2
-zeep==3.4.0
+zeep==4.0.0
 attrs==20.2.0
 pluggy==0.13.1
 funcsigs==1.0.2
@@ -43,3 +43,4 @@ importlib_metadata==2.0.0
 contextlib2==0.6.0.post1
 packaging==20.4
 iniconfig==1.1.1
+requests_file==1.5.1
