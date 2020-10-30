@@ -43,3 +43,4 @@ importlib_metadata==2.0.0
 contextlib2==0.6.0.post1
 packaging==20.4
 iniconfig==1.0.1
+requests_file==1.5.1
