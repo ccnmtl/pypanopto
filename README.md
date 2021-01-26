@@ -1,4 +1,4 @@
-# pypanopto  [![Build Status](https://travis-ci.org/ccnmtl/pypanopto.svg?branch=master)](https://travis-ci.org/ccnmtl/pypanopto)
+# pypanopto [![Actions Status](https://github.com/ccnmtl/pypanopto/workflows/build-and-test/badge.svg)](https://github.com/ccnmtl/pypanopto/actions)
 
 The `pypanopto` library provides Python integration with the [Panopto SOAP API](https://support.panopto.com/s/article/api-0) and the [Panopto Upload API](https://support.panopto.com/s/article/Upload-API).
 
