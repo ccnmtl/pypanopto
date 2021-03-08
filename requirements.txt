@@ -38,7 +38,7 @@ google_compute_engine==2.8.13
 
 entrypoints==0.3
 appdirs==1.4.4
-zipp==3.4.0
+zipp==3.4.1
 importlib_metadata==3.7.0
 contextlib2==0.6.0.post1
 packaging==20.9
