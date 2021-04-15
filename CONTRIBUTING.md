@@ -12,7 +12,7 @@ We'd love for you to contribute to our source code! Here are the guidelines we'd
  - [Further Info](#info)
 
 ## <a name="coc"></a> Code of Conduct
-Help us stay open and inclusive by following our [Code of Conduct](https://github.com/ccnmtl/pypanopto/blob/master/CODE_OF_CONDUCT.md).
+Help us stay open and inclusive by following our [Code of Conduct](https://github.com/ccnmtl/pypanopto/blob/main/CODE_OF_CONDUCT.md).
 
 ## <a name="issue"></a> Found an Issue?
 If you find a bug in the source code or a mistake in the documentation, you can help us by
@@ -35,17 +35,17 @@ To ensure consistency throughout the source code, please keep these rules in min
 * We follow the conventions contained in:
      * Python's [PEP8 Style Guide](https://www.python.org/dev/peps/pep-0008/) (enforced by [flake8](https://pypi.python.org/pypi/flake8))
      * Javscript's [ESLint](http://eslint.org/) errors and warnings.
-* The master branch is continuously integrated by [Travis-CI](https://travis-ci.org/), and all tests must pass before merging.
+* The main branch is continuously integrated by [Travis-CI](https://travis-ci.org/), and all tests must pass before merging.
 
 ## <a name="changes"></a>Making Changes
 
 * Create a topic branch from where you want to base your work.
-  * This is usually the master branch.
+  * This is usually the main branch.
   * Only target release branches if you are certain your fix must be on that
     branch.
-  * To quickly create a topic branch based on master; `git checkout -b
-    fix/master/my_contribution master`. Please avoid working directly on the
-    `master` branch.
+  * To quickly create a topic branch based on main; `git checkout -b
+    fix/main/my_contribution main`. Please avoid working directly on the
+    `main` branch.
 * Create your patch, **including appropriate test cases**.
 * Make commits of logical units.
 * Run `make` to make sure the code passes all tests.

@@ -19,10 +19,10 @@ $ pip install pypanopto
 ```
 Or, if you're using virtualenv, add ```pypanopto``` to your ```requirements.txt```.
 
-See this repository's [requirements.txt](https://github.com/ccnmtl/pypanopto/blob/master/requirements.txt) for a list of dependencies.
+See this repository's [requirements.txt](https://github.com/ccnmtl/pypanopto/blob/main/requirements.txt) for a list of dependencies.
 
 ## Examples
-The [examples](https://github.com/ccnmtl/pypanopto/tree/master/examples) directory provides basic command-line examples for all the library functionality.
+The [examples](https://github.com/ccnmtl/pypanopto/tree/main/examples) directory provides basic command-line examples for all the library functionality.
 
 ## Parameters explained
 * `server` - The url of the Panopto server, minus the `https://` prefix.
