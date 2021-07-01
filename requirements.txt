@@ -40,7 +40,7 @@ entrypoints==0.3
 appdirs==1.4.4
 zipp==3.4.1
 importlib_metadata==4.6.0
-contextlib2==0.6.0.post1
+contextlib2==21.6.0
 packaging==20.9
 iniconfig==1.1.1
 requests_file==1.5.1
