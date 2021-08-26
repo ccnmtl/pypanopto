@@ -24,7 +24,7 @@ isodate==0.6.0
 cached-property==1.5.2
 zeep==4.1.0
 attrs==21.2.0
-pluggy==0.13.1
+pluggy==1.0.0
 funcsigs==1.0.2
 py==1.10.0
 pytest==6.2.4
