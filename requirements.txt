@@ -44,4 +44,4 @@ contextlib2==21.6.0
 packaging==21.0
 iniconfig==1.1.1
 requests_file==1.5.1
-typing_extensions==3.10.0.0
+typing_extensions==3.10.0.1
