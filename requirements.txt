@@ -3,7 +3,7 @@ python-dateutil==2.8.2
 six==1.16.0
 chardet==4.0.0
 idna==3.3
-certifi==2022.5.18
+certifi==2022.5.18.1
 urllib3==1.26.9
 requests==2.27.1
 pep8==1.7.1
