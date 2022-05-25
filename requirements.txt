@@ -3,7 +3,7 @@ python-dateutil==2.8.2
 six==1.16.0
 chardet==4.0.0
 idna==3.3
-certifi==2021.10.8
+certifi==2022.5.18.1
 urllib3==1.26.9
 requests==2.27.1
 pep8==1.7.1
@@ -14,7 +14,7 @@ flake8==4.0.1
 s3transfer==0.5.2
 jmespath==1.0.0
 
-botocore>=1.15.0,<1.26.0
+botocore>=1.15.0,<1.27.0
 boto3>=1.12.0,<1.24.0
 
 defusedxml==0.7.1
