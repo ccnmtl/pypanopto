@@ -98,53 +98,56 @@ class PanoptoSessionManager(object):
         try:
             response = self.client['session'].service.GetSessionsById(
                 auth=self.auth_info, sessionIds=[session_id])
-
-            if response is None or len(response) < 1:
-                return ''
-
-            obj = serialize_object(response)
-            return obj[0]['MP4Url']
         except Fault:
             return ''
+
+        if response is None or len(response) < 1:
+            return ''
+
+        obj = serialize_object(response)
+        return obj[0]['MP4Url']
 
     def get_thumb_url(self, session_id):
         try:
             response = self.client['session'].service.GetSessionsById(
                 auth=self.auth_info, sessionIds=[session_id])
-
-            if response is None or len(response) < 1:
-                return None
-
-            obj = serialize_object(response)
-            return obj[0]['ThumbUrl']
         except Fault:
             return None
 
+        if response is None or len(response) < 1:
+            return None
+
+        obj = serialize_object(response)
+        return obj[0]['ThumbUrl']
+
     def get_session_list(self, folder):
+        request = {
+            'FolderId': folder,
+            'Pagination': {'MaxNumberResults': 100, 'PageNumber': 0}
+        }
+
         try:
-            request = {
-                'FolderId': folder,
-                'Pagination': {'MaxNumberResults': 100, 'PageNumber': 0}
-            }
             response = self.client['session'].service.GetSessionsList(
                 auth=self.auth_info, request=request, searchQuery=None)
-
-            if (response is None or len(response) < 1 or
-                    response['TotalNumberResults'] == 0):
-                return []
-
-            obj = serialize_object(response)
-            return obj['Results']['Session']
         except Fault:
             return []
+
+        if (
+                response is None or len(response) < 1 or
+                response['TotalNumberResults'] == 0
+        ):
+            return []
+
+        obj = serialize_object(response)
+        return obj['Results']['Session']
 
     def move_sessions(self, session_ids, folder):
         try:
             self.client['session'].service.MoveSessions(
                 auth=self.auth_info, sessionIds=session_ids, folderId=folder)
-
-            # This api does not return a response. If no exception is thrown
-            # assuming everything was completed successfully
-            return True
         except Fault:
             return False
+
+        # This api does not return a response. If no exception is thrown
+        # assuming everything was completed successfully
+        return True
