@@ -1,11 +1,11 @@
 PY_DIRS=panopto examples
 VE ?= ./ve
-PIP_VERSION ?= 21.2.4
+PIP_VERSION ?= 22.2.2
 REQUIREMENTS ?= requirements.txt
 SYS_PYTHON ?= python3
 PIP ?= $(VE)/bin/pip
 PY_SENTINAL ?= $(VE)/sentinal
-WHEEL_VERSION ?= 0.36.2
+WHEEL_VERSION ?= 0.37.1
 MAX_COMPLEXITY ?= 7
 PY_DIRS ?= $(APP)
 FLAKE8 ?= $(VE)/bin/flake8
