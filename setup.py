@@ -1,4 +1,4 @@
-# Copyright (c) 2007-2016, Columbia Center For New Media Teaching And Learning (CCNMTL)
+# Copyright (c) 2018-2022, Columbia Center For Teaching And Learning (CTL)
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -29,7 +29,7 @@ setup(
     name="pypanopto",
     version="0.2.0",
     author="Susan Dreher",
-    author_email="sdreher@columbia.edu",
+    author_email="ctl-dev@columbia.edu",
     url="https://github.com/ccnmtl/pypanopto",
     description="LTI helper",
     long_description="LTI Helper",
