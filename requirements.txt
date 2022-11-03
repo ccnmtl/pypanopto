@@ -22,7 +22,7 @@ lxml==4.9.1
 requests-toolbelt==0.10.1
 isodate==0.6.1
 cached-property==1.5.2
-zeep==4.1.0
+zeep==4.2.0
 attrs==22.1.0
 pluggy==1.0.0
 funcsigs==1.0.2
