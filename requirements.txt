@@ -28,7 +28,7 @@ pluggy==1.2.0
 funcsigs==1.0.2
 py==1.11.0
 pytest==7.4.0
-exceptiongroup==1.1.1
+exceptiongroup==1.1.2
 mock==5.0.2
 pbr==5.11.1
 more_itertools==9.1.0
