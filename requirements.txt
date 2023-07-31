@@ -8,7 +8,7 @@ urllib3==1.26.15
 requests==2.31.0
 pep8==1.7.1
 pyflakes==3.1.0
-pycodestyle==2.10.0
+pycodestyle==2.11.0
 configparser==6.0.0
 flake8==6.0.0
 s3transfer==0.6.1
