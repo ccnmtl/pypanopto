@@ -34,7 +34,7 @@ pbr==6.0.0
 more_itertools==10.1.0
 atomicwrites==1.4.1
 scandir==1.10.0
-distro==1.8.0  # for google_compute_engine
+distro==1.9.0  # for google_compute_engine
 google_compute_engine==2.8.13
 
 entrypoints==0.4
