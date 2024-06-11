@@ -31,7 +31,7 @@ pytest==8.2.2
 exceptiongroup==1.2.1
 mock==5.1.0
 pbr==6.0.0
-more_itertools==10.2.0
+more_itertools==10.3.0
 atomicwrites==1.4.1
 scandir==1.10.0
 distro==1.9.0  # for google_compute_engine
