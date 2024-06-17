@@ -10,7 +10,7 @@ pep8==1.7.1
 pyflakes==3.2.0
 pycodestyle==2.11.1
 configparser==7.0.0
-flake8==7.0.0
+flake8==7.1.0
 s3transfer==0.10.1
 jmespath==1.0.1
 
