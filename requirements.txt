@@ -40,7 +40,7 @@ google_compute_engine==2.8.13
 entrypoints==0.4
 appdirs==1.4.4
 zipp==3.19.2
-importlib_metadata<7.2
+importlib_metadata<7.3
 contextlib2==21.6.0
 packaging==24.1
 iniconfig==2.0.0
