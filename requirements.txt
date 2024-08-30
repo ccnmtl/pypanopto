@@ -3,7 +3,7 @@ python-dateutil==2.9.0.post0
 six==1.16.0
 chardet==5.2.0
 idna==3.8
-certifi==2024.7.4
+certifi==2024.8.30
 urllib3==2.2.2
 requests==2.32.3
 pep8==1.7.1
