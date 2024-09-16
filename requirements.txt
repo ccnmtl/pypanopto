@@ -2,7 +2,7 @@ pytz==2024.2
 python-dateutil==2.9.0.post0
 six==1.16.0
 chardet==5.2.0
-idna==3.8
+idna==3.10
 certifi==2024.8.30
 urllib3==2.2.3
 requests==2.32.3
