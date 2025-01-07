@@ -4,7 +4,7 @@ six==1.17.0
 chardet==5.2.0
 idna==3.10
 certifi==2024.12.14
-urllib3==2.2.3
+urllib3==2.3.0
 requests==2.32.3
 pep8==1.7.1
 pyflakes==3.2.0
