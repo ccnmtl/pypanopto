@@ -27,12 +27,12 @@ from setuptools import setup
 
 setup(
     name="pypanopto",
-    version="0.2.0",
+    version="0.2.1",
     author="Susan Dreher",
     author_email="ctl-dev@columbia.edu",
     url="https://github.com/ccnmtl/pypanopto",
-    description="LTI helper",
-    long_description="LTI Helper",
+    description="Panopto integration library",
+    long_description="Panopto integration library",
     install_requires=[
         "lxml",
         "zeep",
