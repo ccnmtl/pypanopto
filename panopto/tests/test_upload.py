@@ -24,5 +24,5 @@ class TestPanoptoUploadTarget(unittest.TestCase):
         uploader = PanoptoUpload()
         manifest = uploader._panopto_manifest('/tmp', u'foo', u'foo bar')
         self.assertTrue(b'<Title>foo</Title>' in manifest)
-        self.assertTrue(b'<Filename>/tmp</Filename>' in manifest)
+        self.assertTrue(b'<File>/tmp</File>' in manifest)
         self.assertTrue(b'<Description>foo bar</Description>' in manifest)
