@@ -164,7 +164,7 @@ class PanoptoUpload(object):
         root.append(elt)
 
         elt = etree.Element('Date')
-        elt.text = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+        elt.text = datetime.now(timezone.utc).isoformat()
         root.append(elt)
 
         video = etree.Element('Video')
