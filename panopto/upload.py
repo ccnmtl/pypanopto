@@ -1,4 +1,5 @@
 from _io import BytesIO
+from datetime import timezone
 from datetime import datetime
 from json import loads
 import math
@@ -146,23 +147,24 @@ class PanoptoUpload(object):
 
     def _panopto_manifest(self, dest_filename, title, descript):
         namespace_map = {
-            'i': 'http://www.w3.org/2001/XMLSchema-instance',
-            None: 'http://panopto.com/PanoptoSession/v1'
+            None: 'http://tempuri.org/UniversalCaptureSpecification/v1',
+            'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+            'xsd': 'http://www.w3.org/2001/XMLSchema',
         }
 
         # create XML
-        root = etree.Element('PanoptoSession', nsmap=namespace_map)
+        root = etree.Element('Session', nsmap=namespace_map)
 
         elt = etree.Element('Title')
         elt.text = title
         root.append(elt)
 
         elt = etree.Element('Description')
-        elt.text = unicodedata.normalize('NFKD', descript or u'')
+        elt.text = unicodedata.normalize('NFKD', descript or '')
         root.append(elt)
 
         elt = etree.Element('Date')
-        elt.text = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000-00:00')
+        elt.text = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
         root.append(elt)
 
         video = etree.Element('Video')
@@ -170,31 +172,19 @@ class PanoptoUpload(object):
         elt.text = 'PT0S'
         video.append(elt)
 
-        elt = etree.Element('Filename')
+        elt = etree.Element('File')
         elt.text = dest_filename
         video.append(elt)
-
-        video.append(etree.Element('Cuts'))
-        video.append(etree.Element('TableOfContents'))
 
         elt = etree.Element('Type')
         elt.text = 'Primary'
         video.append(elt)
 
-        video.append(etree.Element('Transcipts'))
-
         videos = etree.Element('Videos')
         videos.append(video)
         root.append(videos)
 
-        root.append(etree.Element('Presentations'))
-        root.append(etree.Element('Images'))
-        root.append(etree.Element('Cuts'))
-        root.append(etree.Element('Tags'))
-        root.append(etree.Element('Extensions'))
-        root.append(etree.Element('Attachments'))
-
-        return etree.tostring(root,  encoding='UTF-8')
+        return etree.tostring(root, xml_declaration=True, encoding='UTF-8')
 
     def upload_manifest(self):
         # create and upload a manifest file for panopto
