@@ -220,6 +220,26 @@ class PanoptoUpload(object):
 
 
 class PanoptoUploadStatus(object):
+    """
+    This class encapsulates Panopto's upload status types:
+
+    0: Uploading - An upload was created, and has not been cancelled
+      or completed
+    1: UploadComplete - The upload has been completed, but has yet to
+      be transferred to storage
+    2: UploadCancelled - The upload was cancelled by the user and
+      hasn’t been deleted yet
+    3: Processing - The upload is being processed
+    4: Complete - The upload has been processed and can now be used by
+      the Panopto system
+    5: ProcessingError - There was an error during transfer
+    6: DeletingFiles - The upload was cancelled or timed out, and is
+      being deleted
+    7: Delete - The upload was cancelled or timed out and was deleted
+    8: DeletingError - There was an error while deleting the upload
+
+    https://support.panopto.com/resource/uploadapi/index.html
+    """
 
     UPLOAD_CREATED = 0
     UPLOAD_COMPLETE = 1
