@@ -25,7 +25,7 @@ class PanoptoUploadTarget(object):
         Given uploadTarget =
             http[s]://{hostname}/Panopto/Upload/{guid}
     '''
-    def __init__(self, upload_id, upload_target):
+    def __init__(self, upload_id: str, upload_target: str):
         self.upload_id = upload_id
         self.upload_target = upload_target
 
@@ -145,7 +145,7 @@ class PanoptoUpload(object):
 
         source_file.close()
 
-    def _panopto_manifest(self, dest_filename, title, descript):
+    def _panopto_manifest(self, dest_filename: str, title: str, descript: str):
         namespace_map = {
             None: 'http://tempuri.org/UniversalCaptureSpecification/v1',
             'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
@@ -215,7 +215,7 @@ class PanoptoUpload(object):
         response = self.session.put(url, json=payload)
         return response.status_code == 200
 
-    def get_upload_id(self):
+    def get_upload_id(self) -> str:
         return self.target.upload_id
 
 
@@ -269,7 +269,7 @@ class PanoptoUploadStatus(object):
         self.password = None
         self.upload_id = None
 
-    def check(self):
+    def check(self) -> tuple[int, str]:
         auth = PanoptoAuth(self.server)
 
         self.session = auth.authenticate_with_password(
