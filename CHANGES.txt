@@ -1,6 +1,6 @@
-0.3.0
+0.3.0 (2025-02-05)
 ===================
-* Revised manifest XML to match Panopto's examle format.
+* Revised manifest XML to match Panopto's example format.
 * Use UTC time format rather than local time.
 
 0.2.1 (2025-01-30)

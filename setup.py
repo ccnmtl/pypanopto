@@ -1,4 +1,4 @@
-# Copyright (c) 2018-2022, Columbia Center For Teaching And Learning (CTL)
+# Copyright (c) 2018-2025, Columbia Center For Teaching And Learning (CTL)
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -27,7 +27,7 @@ from setuptools import setup
 
 setup(
     name="pypanopto",
-    version="0.2.1",
+    version="0.3.0",
     author="Susan Dreher",
     author_email="ctl-dev@columbia.edu",
     url="https://github.com/ccnmtl/pypanopto",
