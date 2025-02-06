@@ -84,7 +84,7 @@ class PanoptoUpload(object):
         if not self.title:
             self.title = fname
 
-    def create_session(self):
+    def create_session(self) -> bool:
         # authenticate
         auth = PanoptoAuth(self.server)
 
@@ -145,7 +145,8 @@ class PanoptoUpload(object):
 
         source_file.close()
 
-    def _panopto_manifest(self, dest_filename: str, title: str, descript: str):
+    def _panopto_manifest(
+            self, dest_filename: str, title: str, descript: str) -> bytes:
         namespace_map = {
             None: 'http://tempuri.org/UniversalCaptureSpecification/v1',
             'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
@@ -198,7 +199,7 @@ class PanoptoUpload(object):
         self.s3.upload_fileobj(
             source_file, self.target.bucket_name, key_name, Config=config)
 
-    def complete_session(self):
+    def complete_session(self) -> bool:
         url = 'https://{}/Panopto/PublicAPI/REST/sessionUpload/{}'.format(
             self.server, self.target.upload_id)
 
