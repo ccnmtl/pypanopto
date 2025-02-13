@@ -11,7 +11,6 @@ import uuid
 import boto3
 from lxml import etree
 
-from boto3.s3.transfer import TransferConfig
 from botocore import UNSIGNED
 from botocore.client import Config
 from panopto.auth import PanoptoAuth
@@ -194,10 +193,9 @@ class PanoptoUpload(object):
         source_file = BytesIO(manifest)
         key_name = self.target.file_key('{}.xml'.format(self.uuid))
 
-        config = TransferConfig(multipart_threshold=1, io_chunksize=13107200)
-
         self.s3.upload_fileobj(
-            source_file, self.target.bucket_name, key_name, Config=config)
+            source_file, self.target.bucket_name, key_name,
+            ExtraArgs={'ContentType': 'text/xml'})
 
     def complete_session(self) -> bool:
         url = 'https://{}/Panopto/PublicAPI/REST/sessionUpload/{}'.format(
