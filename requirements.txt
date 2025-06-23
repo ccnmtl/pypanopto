@@ -7,7 +7,7 @@ certifi==2025.6.15
 urllib3==2.4.0
 requests==2.32.4
 pep8==1.7.1
-pyflakes==3.3.2
+pyflakes==3.4.0
 pycodestyle==2.13.0
 configparser==7.2.0
 flake8==7.2.0
