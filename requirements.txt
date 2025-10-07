@@ -23,7 +23,7 @@ requests-toolbelt==1.0.0
 isodate==0.7.2
 cached-property==2.0.1
 zeep==4.3.2
-attrs==25.3.0
+attrs==25.4.0
 pluggy==1.6.0
 funcsigs==1.0.2
 py==1.11.0
