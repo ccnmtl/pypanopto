@@ -113,7 +113,11 @@ class PanoptoUpload(object):
         self.s3 = boto3.client('s3', aws_access_key_id=None,
                                aws_secret_access_key=None,
                                endpoint_url=self.target.host(),
-                               config=Config(signature_version=UNSIGNED))
+                               config=Config(
+                                   signature_version=UNSIGNED,
+                                   s3={
+                                       'use_legacy_md5': True
+                                   }))
 
     def upload_media(self):
         source_file = open(self.input_file, 'rb')

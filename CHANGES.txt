@@ -1,8 +1,10 @@
-0.3.1
+0.3.1 (2025-10-29)
 ===================
 * Add type hints
 * Removed custom TransferConfig on manifest upload
 * Specify content-type on xml manifest upload
+* Added use_legacy_md5: True to boto client config,
+  to address Panopto XML error.
 
 0.3.0 (2025-02-05)
 ===================
