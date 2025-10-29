@@ -116,7 +116,7 @@ class PanoptoUpload(object):
                                config=Config(
                                    signature_version=UNSIGNED,
                                    s3={
-                                       'use_legacy_md5': True
+                                       'payload_signing_enabled': False
                                    }))
 
     def upload_media(self):
