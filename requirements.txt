@@ -5,7 +5,7 @@ chardet==7.4.0.post2
 idna==3.11
 certifi==2026.2.25
 urllib3==2.6.3
-requests==2.33.0
+requests==2.33.1
 pep8==1.7.1
 pyflakes==3.4.0
 pycodestyle==2.14.0
