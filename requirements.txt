@@ -43,7 +43,7 @@ appdirs==1.4.4
 zipp==3.23.1
 importlib_metadata<9.1
 contextlib2==21.6.0
-packaging==26.0
+packaging==26.1
 iniconfig==2.3.0
 requests_file==3.0.1
 typing_extensions==4.15.0
