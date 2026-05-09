@@ -1,3 +1,7 @@
+0.3.3
+===================
+* Add missing boto3 and botocore dependencies to setup.py
+
 0.3.2 (2025-10-29)
 ===================
 * Turn off payload_signing in boto client
