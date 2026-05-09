@@ -1,4 +1,4 @@
-# Copyright (c) 2018-2025, Columbia Center For Teaching And Learning (CTL)
+# Copyright (c) 2018-2026, Columbia Center For Teaching And Learning (CTL)
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,8 @@ setup(
     install_requires=[
         "lxml",
         "zeep",
+        "boto3",
+        "botocore",
     ],
     scripts=[],
     license="GPLv3+",
