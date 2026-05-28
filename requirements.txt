@@ -15,7 +15,7 @@ s3transfer==0.17.1
 jmespath==1.1.0
 
 botocore==1.43.15
-boto3==1.43.15
+boto3==1.43.16
 
 defusedxml==0.7.1
 lxml==6.1.1
