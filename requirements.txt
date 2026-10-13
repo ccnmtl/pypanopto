@@ -44,6 +44,6 @@ zipp==4.1.1
 importlib_metadata<9.1
 contextlib2==21.6.0
 packaging==26.3
-iniconfig==2.3.0
+iniconfig==2.3.1
 requests_file==3.0.1
 typing_extensions==4.16.0
