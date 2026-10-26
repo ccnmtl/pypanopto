@@ -1,5 +1,5 @@
 pytz==2026.5
-python-dateutil==2.9.0.post0
+python-dateutil==3.0.0
 six==1.17.0
 chardet==7.7.0
 idna==3.20
